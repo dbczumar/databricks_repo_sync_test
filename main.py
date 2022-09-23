@@ -21,6 +21,7 @@ def main():
     sc = spark_handles["sc"]
     import os
     assert os.path.exists("databricks_repo_sync.zip")
+    assert os.cwd() == False, os.cwd()
     sc.addPyFile("/tmp/myloc/databricks_repo_sync.zip")
     sc.addFile("/tmp/myloc/databricks_repo_sync.zip")
     spark = spark_handles["spark"]
