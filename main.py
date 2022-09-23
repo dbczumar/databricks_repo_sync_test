@@ -2,7 +2,6 @@ from pyspark.sql import functions as F
 from pyspark.sql import types as T
 # from pyspark.sql import SparkSession
 
-from databricks_repo_sync_test import plus_one
 import mlflow
 
 from pip._internal.operations import freeze
@@ -20,8 +19,10 @@ def main():
 
     spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
     sc = spark_handles["sc"]
-    sc.addPyFiles("databricks_repo_sync.zip")
+    sc.addPyFile("databricks_repo_sync.zip")
     spark = spark_handles["spark"]
+
+    from databricks_repo_sync_test import plus_one
 
     # spark = SparkSession.builder.getOrCreate()
     df = spark.createDataFrame([(0,),(1,)], ("i",))
