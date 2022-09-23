@@ -1,3 +1,5 @@
+import os
+
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 # from pyspark.sql import SparkSession
@@ -19,12 +21,8 @@ def main():
 
     spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
     sc = spark_handles["sc"]
-    import os
-    assert os.path.exists("databricks_repo_sync.zip")
-    raise Exception(os.getcwd())
-    # assert os.getcwd() == False, os.getcwd()
-    sc.addPyFile("/tmp/myloc/databricks_repo_sync.zip")
-    sc.addFile("/tmp/myloc/databricks_repo_sync.zip")
+    sc.addPyFile(os.path.abspath("databricks_repo_sync.zip"))
+    sc.addFile(os.path.abspath("databricks_repo_sync.zip"))
     spark = spark_handles["spark"]
 
     from databricks_repo_sync_test import plus_one
