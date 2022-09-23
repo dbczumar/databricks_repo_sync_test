@@ -20,7 +20,7 @@ def main():
     spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
     sc = spark_handles["sc"]
     import os
-    assert os.path.exists("databricks_repo_sync.zip")
+    assert not os.path.exists("databricks_repo_sync.zip")
     sc.addPyFile("databricks_repo_sync.zip")
     spark = spark_handles["spark"]
 
