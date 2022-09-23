@@ -1,6 +1,6 @@
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
-from pyspark.sql import SparkSession
+# from pyspark.sql import SparkSession
 
 from databricks_repo_sync_test import plus_one
 import mlflow
@@ -12,7 +12,16 @@ def main():
     for dep in freeze.freeze():
         print(f"DEPENDENCY {dep}")
 
-    spark = SparkSession.builder.getOrCreate()
+
+    from dbruntime.spark_connection import (
+        initialize_spark_connection,
+        is_pinn_mode_enabled,
+    )
+
+    spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
+    spark = spark_handles["spark"]
+
+    # spark = SparkSession.builder.getOrCreate()
     df = spark.createDataFrame([(0,),(1,)], ("i",))
     plus_one_udf = F.udf(plus_one, T.IntegerType())
     df = df.withColumn("j", plus_one_udf("i"))
