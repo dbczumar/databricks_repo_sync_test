@@ -21,8 +21,12 @@ def main():
 
     spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
     sc = spark_handles["sc"]
-    sc.addPyFile(os.path.abspath("databricks_repo_sync.zip"))
-    sc.addFile(os.path.abspath("databricks_repo_sync.zip"))
+    try:
+        sc.addPyFile(os.path.abspath("databricks_repo_sync.zip"))
+    except Exception:
+        # If the file was already added, continue
+        pass
+    # sc.addFile(os.path.abspath("databricks_repo_sync.zip"))
     spark = spark_handles["spark"]
 
     from databricks_repo_sync_test import plus_one
