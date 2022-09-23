@@ -19,6 +19,8 @@ def main():
     )
 
     spark_handles, _ = initialize_spark_connection(is_pinn_mode_enabled())
+    sc = spark_handles["sc"]
+    sc.addPyFiles("databricks_repo_sync.zip")
     spark = spark_handles["spark"]
 
     # spark = SparkSession.builder.getOrCreate()
